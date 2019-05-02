@@ -23,7 +23,7 @@
         "type": "string"
       },
       "storageAccounts_mansstorage_name": {
-        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'myuserstorage')]",
+        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'store')]",
         "type": "string"
       },
       "components_FunctionsDatabase_name": {
@@ -36,7 +36,7 @@
         },
 
       "serverfarms_ServicePlana6f91037_87b6_externalid": {
-        "defaultValue": "/subscriptions/'subscription().subscriptionId'/resourceGroups/APItask/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6",
+        "defaultValue": "/subscriptions/subscription().subscriptionId/resourceGroups/APItask/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6",
         "type": "string"
       }
     },

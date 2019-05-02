@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">What would you like to do?</h1>
+
+    <div>
+        <button onclick="location.href = '/AddUser';" class="button" style="vertical-align:middle"><span>Add User </span></button>
+
+        <button onclick="location.href = '/getlist';" class="button" style="vertical-align:middle"><span>Get List </span></button>
+
+        <button onclick="location.href = '/getbyid';" class="button" style="vertical-align:middle"><span>Get by ID </span></button>
+
+        @section scripts{
+
+            <script>
+
+            function requestSending() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', 'https://functionsdatabase.azurewebsites.net/api/users', true);
+                xhr.send();
+
+            }
+
+
+
+            </script>
+        }
+
+    </div>
+</div>

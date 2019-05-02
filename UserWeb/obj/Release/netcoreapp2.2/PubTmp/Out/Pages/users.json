@@ -1,0 +1,218 @@
+[
+  {
+    "id": "1",
+    "firstName": "Monkey",
+    "lastName": "Business",
+    "hireDate": "2019-01-01",
+    "dischargeDate": null,
+    "position": "Management",
+    "managerId": "2"
+  },
+  {
+    "id": "7",
+    "firstName": "Michael",
+    "lastName": "Jordan",
+    "hireDate": "2019-08-22",
+    "dischargeDate": null,
+    "position": "Basketball player",
+    "managerId": "8"
+  },
+  {
+    "id": "6",
+    "firstName": "Snopp",
+    "lastName": "Dogg",
+    "hireDate": "2019-11-07",
+    "dischargeDate": null,
+    "position": "Rapper",
+    "managerId": "7"
+  },
+  {
+    "id": "3",
+    "firstName": "Scooby",
+    "lastName": "Doo",
+    "hireDate": "2019-03-03",
+    "dischargeDate": null,
+    "position": "The Dog",
+    "managerId": "4"
+  },
+  {
+    "id": "5",
+    "firstName": "Sponge",
+    "lastName": "Bob",
+    "hireDate": "2019-05-05",
+    "dischargeDate": null,
+    "position": "Sponge",
+    "managerId": "6"
+  },
+  {
+    "id": "4",
+    "firstName": "Ash",
+    "lastName": "Ketchup",
+    "hireDate": "2019-04-04",
+    "dischargeDate": null,
+    "position": "Cook",
+    "managerId": "5"
+  },
+  {
+    "id": "2",
+    "firstName": "Octopus",
+    "lastName": "Prime",
+    "hireDate": "2019-02-02",
+    "dischargeDate": null,
+    "position": "Developer",
+    "managerId": "3"
+  },
+  {
+    "id": "8",
+    "firstName": "DonkeyMonkey",
+    "lastName": "Business",
+    "hireDate": "2019-01-01",
+    "dischargeDate": "2019-01-01",
+    "position": "Management",
+    "managerId": "12"
+  },
+  {
+    "id": "743e2509-b3a9-46a6-ade4-57e220fc416e",
+    "firstName": "Monkey2",
+    "lastName": "Business2",
+    "hireDate": "2019-01-01",
+    "dischargeDate": null,
+    "position": "Management",
+    "managerId": "12"
+  },
+  {
+    "id": "60aeff59-98eb-41a7-8576-da2dccb6361d",
+    "firstName": "Monkey2",
+    "lastName": "Business2",
+    "hireDate": "2019-01-01",
+    "dischargeDate": null,
+    "position": "Management",
+    "managerId": "12"
+  },
+  {
+    "id": "112",
+    "firstName": "Baloo",
+    "lastName": "Jungle",
+    "hireDate": "2019-04-24",
+    "dischargeDate": "2019-03-24",
+    "position": "Management",
+    "managerId": "15"
+  },
+  {
+    "id": "2504",
+    "firstName": "Deep",
+    "lastName": "Sleep",
+    "hireDate": "2019-04-25",
+    "dischargeDate": "2019-02-25",
+    "position": "Management",
+    "managerId": "18"
+  },
+  {
+    "id": "113",
+    "firstName": "Balyohoo",
+    "lastName": "Tester",
+    "hireDate": "2019-04-24",
+    "dischargeDate": "2019-03-24",
+    "position": "High",
+    "managerId": "15"
+  },
+  {
+    "id": "114",
+    "firstName": "Test^",
+    "lastName": "Test",
+    "hireDate": "2019-04-24",
+    "dischargeDate": "2019-03-24",
+    "position": "Test",
+    "managerId": "17"
+  },
+  {
+    "id": "115",
+    "firstName": "Testing",
+    "lastName": "Testing",
+    "hireDate": "2019-04-24",
+    "dischargeDate": "2019-03-24",
+    "position": "Testing",
+    "managerId": "17"
+  },
+  {
+    "id": "116",
+    "firstName": "Testing$",
+    "lastName": "Testing",
+    "hireDate": "2019-01-24",
+    "dischargeDate": "2019-01-24",
+    "position": "Testing",
+    "managerId": "17"
+  },
+  {
+    "id": "117",
+    "firstName": "Checerk",
+    "lastName": "Check",
+    "hireDate": "2019-01-24",
+    "dischargeDate": "2019-01-24",
+    "position": "Check",
+    "managerId": "17"
+  },
+  {
+    "id": "118",
+    "firstName": "Checerk",
+    "lastName": "Check",
+    "hireDate": "2019-03-22",
+    "dischargeDate": "2019-02-24",
+    "position": "Check",
+    "managerId": "17"
+  },
+  {
+    "id": "1335",
+    "firstName": "Checerk",
+    "lastName": "Check",
+    "hireDate": "2019-03-22",
+    "dischargeDate": "2019-02-24",
+    "position": "Check",
+    "managerId": "17"
+  },
+  {
+    "id": "2222",
+    "firstName": "Checerkkkk",
+    "lastName": "Check",
+    "hireDate": "2019-03-22",
+    "dischargeDate": "2019-02-24",
+    "position": "Check",
+    "managerId": "17"
+  },
+  {
+    "id": "3333",
+    "firstName": "DonkeyMonkey",
+    "lastName": "Business",
+    "hireDate": "2019-01-01",
+    "dischargeDate": "2019-01-01",
+    "position": "Management",
+    "managerId": "12"
+  },
+  {
+    "id": "4444",
+    "firstName": "Edgars",
+    "lastName": "Mielavs",
+    "hireDate": "2019-04-03",
+    "dischargeDate": "2019-04-03",
+    "position": "Developer",
+    "managerId": "22"
+  },
+  {
+    "id": "4445",
+    "firstName": "Edgars",
+    "lastName": "Mielavs",
+    "hireDate": "2019-04-03",
+    "dischargeDate": "2019-04-03",
+    "position": "Developer",
+    "managerId": "22"
+  },
+  {
+    "id": "666",
+    "firstName": "Andris",
+    "lastName": "Jersovs",
+    "hireDate": "2019-04-03",
+    "dischargeDate": "2019-04-03",
+    "position": "Developer",
+    "managerId": "666"
+  }
+]

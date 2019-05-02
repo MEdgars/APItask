@@ -1,0 +1,60 @@
+ <?php
+                    $name = $_POST['firstName'];
+                    $surname = $_POST['lastName'];
+                    $id= $_POST['id'];
+                    $pos = $_POST['position'];
+                    $mid = $_POST['managerId'];
+                    $hdate = $_POST['hireDate'];
+                    $ddate = $_POST['dischargeDate'];
+                ?>
+				
+				<table id="users_table">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Id</th>
+                <th>Manager ID</th>
+                <th>Position</th>
+                <th>Hire Date</th>
+                <th>Discharge Date</th>
+            </tr>
+        </table>
+        <form>
+            <input type="submit" id="button" />
+            <button type="submit" value="Submit">Submit</button>
+        </form>
+
+        <script>
+            $(document).ready(function () {
+                $.getJson("https://functionsdatabase.azurewebsites.net/api/users", function (data) {
+                    var userdata = '';
+                    $.each(data, function (key, value) {
+                        userdata += '<tr>';
+                        userdata += '<td>' + value.firstName + '</td>';
+                        userdata += '<td>' + value.lastName + '</td>';
+                        userdata += '<td>' + value.id + '</td>';
+                        userdata += '<td>' + value.managerId + '</td>';
+                        userdata += '<td>' + value.position + '</td>';
+                        userdata += '<td>' + value.hireDate + '</td>';
+                        userdata += '<td>' + value.dischargeDate + '</td>';
+                        userdata += '</tr>';
+
+                    });
+                    $('#users_table').append(users_data);
+                });
+            });
+            $("button").click(function () {
+                $.getJSON("https://functionsdatabase.azurewebsites.net/api/users", function (result) {
+                    $.each(result, function (i, field) {
+                        $("div").append(field + " ");
+                    });
+                });
+            });
+        </script>
+		                    document.getElementById("firstName").innerHTML = response1[0].firstName;
+                    document.getElementById("lastName").innerHTML = response1[0].lastName;
+                    document.getElementById("id").innerHTML = response1[0].id;
+                    document.getElementById("managerId").innerHTML = response1[0].managerId;
+                    document.getElementById("position").innerHTML = response1[0].position;
+                    document.getElementById("hireDate").innerHTML = response1[0].hireDate;
+                    document.getElementById("dischargeDate").innerHTML = response1[0].dischargeDate;

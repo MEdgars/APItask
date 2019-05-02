@@ -235,7 +235,7 @@
             "name": "[parameters('alertrules_Failure_Anomalies___FunctionsDatabase_name')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_FunctionsDatabase_name'))]"
+               
             ],
             "tags": {
                 "hidden-link:/subscriptions/df38f39d-4e9d-4ddf-a1a1-994f0b0b7706/resourceGroups/APIgroup/providers/microsoft.insights/components/FunctionsDatabase": "Resource"
@@ -267,7 +267,7 @@
             "name": "[parameters('alertrules_Failure_Anomalies___UsersWebsite_name')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_UsersWebsite_name'))]"
+                
             ],
             "tags": {
                 "hidden-link:/subscriptions/df38f39d-4e9d-4ddf-a1a1-994f0b0b7706/resourceGroups/APIgroup/providers/microsoft.insights/components/UsersWebsite": "Resource"
@@ -299,7 +299,7 @@
             "name": "[variables('sites_FunctionsDatabase_name')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_NorthEuropePlan_name'))]"
+               
             ],
             "kind": "functionapp",
             "properties": {
@@ -333,7 +333,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/web')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+                
             ],
             "properties": {
                 "numberOfWorkers": 1,
@@ -432,7 +432,7 @@
             "name": "[concat(variables('sites_UsersWebsite_name'), '/web')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_UsersWebsite_name'))]"
+             
             ],
             "tags": {
                 "hidden-related:/subscriptions/df38f39d-4e9d-4ddf-a1a1-994f0b0b7706/resourceGroups/FeelingSite/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6": "empty"
@@ -525,7 +525,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/0675b6f60c074210ba0507885287eb42')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+           
             ],
             "properties": {
                 "id": "0675b6f60c074210ba0507885287eb42",
@@ -545,7 +545,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/480f2e39fdd24dbb931e6fb4a07aa264')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+                
             ],
             "properties": {
                 "id": "480f2e39fdd24dbb931e6fb4a07aa264",
@@ -565,7 +565,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/4b33d41cf0a647bd82a00e77aac35013')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+                
             ],
             "properties": {
                 "id": "4b33d41cf0a647bd82a00e77aac35013",
@@ -585,7 +585,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/5c04eecf8c164425b644ad35d8a35745')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+              
             ],
             "properties": {
                 "id": "5c04eecf8c164425b644ad35d8a35745",
@@ -605,7 +605,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/5c92949c67224f83b85615ffcad5e843')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+                
             ],
             "properties": {
                 "id": "5c92949c67224f83b85615ffcad5e843",
@@ -625,7 +625,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/5fd8e809453c48b880ce613996b4a9fd')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+               
             ],
             "properties": {
                 "id": "5fd8e809453c48b880ce613996b4a9fd",
@@ -645,7 +645,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/761c654b9edc465ba07e98b495cb8c18')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+               
             ],
             "properties": {
                 "id": "761c654b9edc465ba07e98b495cb8c18",
@@ -665,7 +665,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/a7b3a66f8c0b4f5ca63846488b5a4635')]",
             "location": "North Europe",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+                
             ],
             "properties": {
                 "id": "a7b3a66f8c0b4f5ca63846488b5a4635",
@@ -685,7 +685,7 @@
             "name": "[concat(variables('sites_FunctionsDatabase_name'), '/b62123676eb74026b9cc93b286552591')]",
             "location": "North Europe",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+            
           ],
             "properties": {
                 "id": "b62123676eb74026b9cc93b286552591",
@@ -705,7 +705,7 @@
         "name": "[concat(variables('sites_FunctionsDatabase_name'), '/b8bd03acb6e047bab2849b552d17cc03')]",
         "location": "North Europe",
         "dependsOn": [
-          "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+          
         ],
         "properties": {
           "id": "b8bd03acb6e047bab2849b552d17cc03",
@@ -725,7 +725,7 @@
         "name": "[concat(variables('sites_FunctionsDatabase_name'), '/', variables('sites_FunctionsDatabase_name'), '.azurewebsites.net')]",
         "location": "North Europe",
         "dependsOn": [
-          "[resourceId('Microsoft.Web/sites', variables('sites_FunctionsDatabase_name'))]"
+          
         ],
         "properties": {
           "siteName": "FunctionsDatabase",
@@ -738,7 +738,7 @@
         "name": "[concat(variables('sites_UsersWebsite_name'), '/', variables('sites_UsersWebsite_name'), '.azurewebsites.net')]",
         "location": "Central US",
         "dependsOn": [
-          "[resourceId('Microsoft.Web/sites', variables('sites_UsersWebsite_name'))]"
+          
         ],
         "properties": {
           "siteName": "UsersWebsite",

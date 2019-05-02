@@ -1,0 +1,673 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "sites_UsersWebsite_name": {
+        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'UsersWeb')]",
+        "type": "string"
+      },
+      "sites_FunctionsDatabase_name": {
+        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'FunctionsDb')]",
+        "type": "string"
+      },
+        "serverfarms_NorthEuropePlan_name": {
+            "defaultValue": "NorthEuropePlan",
+            "type": "string"
+        },
+        "components_UsersWebsite_name": {
+            "defaultValue": "UsersWebsite",
+            "type": "string"
+        },
+      "databaseAccounts_users_name": {
+        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'users')]",
+        "type": "string"
+      },
+      "storageAccounts_mansstorage_name": {
+        "defaultValue": "[concat(uniquestring(subscription().subscriptionId), 'myuserstorage')]",
+        "type": "string"
+      },
+      "components_FunctionsDatabase_name": {
+        "defaultValue": "[concat(uniqueString(subscription().subscriptionId), 'myfunctiondb')]",
+        "type": "string"
+      },
+        "storageAccounts_functionsdataba9d99_name": {
+            "defaultValue": "myfunctionsdatabase",
+            "type": "string"
+        },
+
+      "serverfarms_ServicePlana6f91037_87b6_externalid": {
+        "defaultValue": "/subscriptions/',subscription().subscriptionId,'/resourceGroups/APItask/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6",
+        "type": "string"
+      }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2015-04-08",
+            "name": "[parameters('databaseAccounts_users_name')]",
+            "location": "North Europe",
+            "tags": {
+                "defaultExperience": "Core (SQL)"
+            },
+            "kind": "GlobalDocumentDB",
+            "properties": {
+                "enableAutomaticFailover": false,
+                "enableMultipleWriteLocations": false,
+                "isVirtualNetworkFilterEnabled": false,
+                "virtualNetworkRules": [],
+                "databaseAccountOfferType": "Standard",
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session",
+                    "maxIntervalInSeconds": 5,
+                    "maxStalenessPrefix": 100
+                },
+                "locations": [
+                    {
+                        "locationName": "North Europe",
+                        "provisioningState": "Succeeded",
+                        "failoverPriority": 0
+                    }
+                ],
+                "capabilities": []
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2015-05-01",
+            "name": "[parameters('components_FunctionsDatabase_name')]",
+            "location": "northeurope",
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Request_Source": "IbizaWebAppExtensionCreate"
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2015-05-01",
+            "name": "[parameters('components_UsersWebsite_name')]",
+            "location": "northeurope",
+            "tags": {
+                "hidden-link:/providers/Microsoft.Web/sites/UsersWebsite": "Resource"
+            },
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Flow_Type": "Redfield",
+                "Request_Source": "WebTools16.0"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[parameters('storageAccounts_functionsdataba9d99_name')]",
+            "location": "northeurope",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2018-07-01",
+            "name": "[parameters('storageAccounts_mansstorage_name')]",
+            "location": "northeurope",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2016-09-01",
+            "name": "[parameters('serverfarms_NorthEuropePlan_name')]",
+            "location": "North Europe",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "kind": "functionapp",
+            "properties": {
+                "name": "[parameters('serverfarms_NorthEuropePlan_name')]",
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[parameters('sites_UsersWebsite_name')]",
+            "location": "Central US",
+            "tags": {
+                "hidden-related:/subscriptions/df38f39d-4e9d-4ddf-a1a1-994f0b0b7706/resourceGroups/FeelingSite/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6": "empty"
+            },
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "userswebsite.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "userswebsite.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_ServicePlana6f91037_87b6_externalid')]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true
+            }
+        },
+        
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2016-08-01",
+            "name": "[parameters('sites_FunctionsDatabase_name')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_NorthEuropePlan_name'))]"
+            ],
+            "kind": "functionapp",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "functionsdatabase.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "functionsdatabase.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_NorthEuropePlan_name'))]",
+                "reserved": false,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/web')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2017",
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$FunctionsDatabase",
+                "scmType": "VSTSRM",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "cors": {
+                    "allowedOrigins": [
+                        "https://functions.azure.com",
+                        "https://functions-staging.azure.com",
+                        "https://functions-next.azure.com",
+                        "https://userswebsite.azurewebsites.net"
+                    ],
+                    "supportCredentials": false
+                },
+                "localMySqlEnabled": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_UsersWebsite_name'), '/web')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_UsersWebsite_name'))]"
+            ],
+            "tags": {
+               
+            },
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$UsersWebsite",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "clientSecretCertificateThumbprint": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "localMySqlEnabled": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/0675b6f60c074210ba0507885287eb42')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "0675b6f60c074210ba0507885287eb42",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T10:25:28.0604017Z",
+                "end_time": "2019-04-25T10:25:33.593415Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/480f2e39fdd24dbb931e6fb4a07aa264')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "480f2e39fdd24dbb931e6fb4a07aa264",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T09:32:14.0928068Z",
+                "end_time": "2019-04-25T09:32:18.5316476Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/4b33d41cf0a647bd82a00e77aac35013')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "4b33d41cf0a647bd82a00e77aac35013",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T08:40:28.5670909Z",
+                "end_time": "2019-04-25T08:40:33.9019259Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/5c04eecf8c164425b644ad35d8a35745')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "5c04eecf8c164425b644ad35d8a35745",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T07:58:56.391645Z",
+                "end_time": "2019-04-25T07:59:00.788544Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/5c92949c67224f83b85615ffcad5e843')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "5c92949c67224f83b85615ffcad5e843",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T11:07:11.4593694Z",
+                "end_time": "2019-04-25T11:07:16.3801253Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/5fd8e809453c48b880ce613996b4a9fd')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "5fd8e809453c48b880ce613996b4a9fd",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T07:17:38.0569031Z",
+                "end_time": "2019-04-25T07:17:43.106808Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/761c654b9edc465ba07e98b495cb8c18')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "761c654b9edc465ba07e98b495cb8c18",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T09:52:04.9707788Z",
+                "end_time": "2019-04-25T09:52:09.4928733Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/a7b3a66f8c0b4f5ca63846488b5a4635')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "a7b3a66f8c0b4f5ca63846488b5a4635",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T10:30:30.4198557Z",
+                "end_time": "2019-04-25T10:30:34.6877535Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/b62123676eb74026b9cc93b286552591')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "b62123676eb74026b9cc93b286552591",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T08:13:19.6203947Z",
+                "end_time": "2019-04-25T08:13:24.0973894Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/b8bd03acb6e047bab2849b552d17cc03')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "id": "b8bd03acb6e047bab2849b552d17cc03",
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "Push-Deployer",
+                "message": "Created via a push deployment",
+                "start_time": "2019-04-25T08:22:34.2765053Z",
+                "end_time": "2019-04-25T08:22:37.9706611Z",
+                "active": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_FunctionsDatabase_name'), '/', parameters('sites_FunctionsDatabase_name'), '.azurewebsites.net')]",
+            "location": "North Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunctionsDatabase_name'))]"
+            ],
+            "properties": {
+                "siteName": "FunctionsDatabase",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2016-08-01",
+            "name": "[concat(parameters('sites_UsersWebsite_name'), '/', parameters('sites_UsersWebsite_name'), '.azurewebsites.net')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_UsersWebsite_name'))]"
+            ],
+            "properties": {
+                "siteName": "UsersWebsite",
+                "hostNameType": "Verified"
+            }
+        }
+    ]
+}

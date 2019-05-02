@@ -187,9 +187,9 @@
             "apiVersion": "2016-08-01",
             "name": "[parameters('sites_UsersWebsite_name')]",
             "location": "Central US",
-            "tags": {
-                "hidden-related:/subscriptions/df38f39d-4e9d-4ddf-a1a1-994f0b0b7706/resourceGroups/FeelingSite/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6": "empty"
-            },
+          "tags": {
+          
+          },
             "kind": "app",
             "properties": {
                 "enabled": true,

@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "databaseAccountName": {
-      "value": "DataBs"
+      "value": "databs"
     },
     "appSvcPlanName": {
-      "value": "svcPlan"
+      "value": "svcplan"
     },
     "svcPlanSize": {
       "value": "F1"
@@ -15,7 +15,7 @@
       "value": "Free"
     },
     "webAppName": {
-      "value": "UsersWeb"
+      "value": "usersweb"
     }
   }
 }

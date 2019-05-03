@@ -57,6 +57,27 @@
         "description": "The Azure Cosmos DB database account name."
       }
     },
+    "inputBlobName": {
+      "type": "string",
+      "defaultValue": "userlist",
+      "metadata": {
+        "description": "Name of the input file/blob."
+      }
+    },
+    "blobContainer": {
+      "type": "string",
+      "defaultValue": "userblobcontainer",
+      "metadata": {
+        "description": "Name of the blob container in the Azure Storage account."
+      }
+    },
+    "inputBlobFolder": {
+      "type": "string",
+      "defaultValue": "listofusers",
+      "metadata": {
+        "description": "The folder in the blob container that has the input file."
+      }
+    },
     "appSvcPlanName": {
       "type": "string",
       "metadata": {
@@ -116,6 +137,8 @@
     "functionAppName": "[parameters('appName')]",
     "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
+    "blobInputDatasetName": "UsersList",
+    "dataFactoryName": "[concat('Users', uniqueString(resourceGroup().id))]",
     "cosmosDbEndpoint": "[concat(parameters('databaseAccountName'),uniqueString(resourceGroup().id), '.documents.azure.com:443/' )]"
   },
   "resources": [
@@ -153,6 +176,26 @@
       "location": "[parameters('location')]",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
+      }
+    },
+    {
+      "type": "datasets",
+      "name": "[variables('blobInputDatasetName')]",
+      "dependsOn": [
+        "[variables('dataFactoryName')]",
+      ],
+      "apiVersion": "2015-10-01",
+      "properties": {
+        "type": "AzureBlob",
+        "linkedServiceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
+        "typeProperties": {
+          "fileName": "[parameters('inputBlobName')]",
+          "folderPath": "[concat(parameters('blobContainer'), '/', parameters('inputBlobFolder'))]"
+        },
+        "availability": {
+          "frequency": "Minute",
+          "interval": 1
+        }
       }
     },
     {

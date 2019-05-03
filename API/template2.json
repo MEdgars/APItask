@@ -233,7 +233,7 @@
 
               "name": "CosmosDBConnection",
 
-              "value": "[concat('AccountEndpoint=', parameters('cosmosDbEndpoint'), ';AccountKey=', parameters('cosmosDbPrimaryKey'))]"
+              "value": "[concat('AccountEndpoint=', variables('cosmosDbEndpoint'), ';AccountKey=', parameters('cosmosDbPrimaryKey'))]"
 
             }
 

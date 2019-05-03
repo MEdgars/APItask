@@ -37,7 +37,7 @@
       "resourcePrefix": {
         "defaultValue": "myconsuption",
           "type": "string"
-      }
+      },
 
 
       "serverfarms_ServicePlana6f91037_87b6_externalid": {

@@ -34,10 +34,7 @@
         "description": "The branch of the GitHub repository to use."
       }
     },
-    "cosmosDbPrimaryKey": {
-      "type": "string",
-      "defaultValue": "sK9vflKdNhiV7MVZM0t8uilQzTkQ7wSNgSo2ZhyO9jm1X0auLp20K4D7cyLbBIDPf3oQf24BSgYCw4ZMDx7dsw==;"
-    },
+   
     "sku": {
       "type": "string",
       "allowedValues": [
@@ -57,27 +54,7 @@
         "description": "The Azure Cosmos DB database account name."
       }
     },
-    "inputBlobName": {
-      "type": "string",
-      "defaultValue": "userlist",
-      "metadata": {
-        "description": "Name of the input file/blob."
-      }
-    },
-    "blobContainer": {
-      "type": "string",
-      "defaultValue": "userblobcontainer",
-      "metadata": {
-        "description": "Name of the blob container in the Azure Storage account."
-      }
-    },
-    "inputBlobFolder": {
-      "type": "string",
-      "defaultValue": "listofusers",
-      "metadata": {
-        "description": "The folder in the blob container that has the input file."
-      }
-    },
+    
     "appSvcPlanName": {
       "type": "string",
       "metadata": {
@@ -136,10 +113,8 @@
     "databaseAccountTier": "Standard",
     "functionAppName": "[parameters('appName')]",
     "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
-    "blobInputDatasetName": "UsersList",
-    "dataFactoryName": "[concat('Users', uniqueString(resourceGroup().id))]",
-    "cosmosDbEndpoint": "[concat(parameters('databaseAccountName'),uniqueString(resourceGroup().id), '.documents.azure.com:443/' )]"
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]"
+
   },
   "resources": [
     {
@@ -178,26 +153,7 @@
         "accountType": "[parameters('storageAccountType')]"
       }
     },
-    {
-      "type": "datasets",
-      "name": "[variables('blobInputDatasetName')]",
-      "dependsOn": [
-        "[variables('dataFactoryName')]"
-      ],
-      "apiVersion": "2015-10-01",
-      "properties": {
-        "type": "AzureBlob",
-        "linkedServiceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
-        "typeProperties": {
-          "fileName": "[parameters('inputBlobName')]",
-          "folderPath": "[concat(parameters('blobContainer'), '/', parameters('inputBlobFolder'))]"
-        },
-        "availability": {
-          "frequency": "Minute",
-          "interval": 1
-        }
-      }
-    },
+    
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-04-01",
@@ -269,18 +225,8 @@
               "name": "AzureWebJobsDashboard",
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
             }
-          ],
-          "connectionStrings": [
-
-            {
-
-              "name": "CosmosDBConnection",
-
-              "value": "[concat('AccountEndpoint=', variables('cosmosDbEndpoint'), ';AccountKey=', parameters('cosmosDbPrimaryKey'))]"
-
-            }
-
           ]
+         
         }
       },
       "dependsOn": [

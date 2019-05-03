@@ -72,7 +72,7 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-08-01",
-      "name": "[parameters('appSvcPlanName')]",
+      "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "[parameters('svcPlanSize')]",
@@ -86,7 +86,7 @@
       "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Web/serverFarms/', parameters('appSvcPlanName'))]"
+        "[concat('Microsoft.Web/serverFarms/', concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id)))]"
       ],
       "properties": {
         "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",

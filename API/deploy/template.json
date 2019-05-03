@@ -30,17 +30,24 @@
         "defaultValue": "[concat(uniqueString(subscription().subscriptionId), 'myfunctiondb')]",
         "type": "string"
       },
-        "storageAccounts_functionsdataba9d99_name": {
-            "defaultValue": "myfunctionsdatabase",
-            "type": "string"
-        },
+      "storageAccounts_functionsdataba9d99_name": {
+        "defaultValue": "myfunctionsdatabase",
+        "type": "string"
+      },
+      "resourcePrefix": {
+        "defaultValue": "myconsuption",
+          "type": "string"
+      }
+
 
       "serverfarms_ServicePlana6f91037_87b6_externalid": {
         "defaultValue": "/subscriptions/', subscription().subscriptionId,'/resourceGroups/Functiontask/providers/Microsoft.Web/serverfarms/ServicePlana6f91037-87b6",
         "type": "string"
       }
     },
-    "variables": {},
+  "variables": {
+    "functionAppConsumptionPlanName": "[concat(parameters('resourcePrefix'), '-', uniqueString(resourceGroup().id))]"
+  },
     "resources": [
         {
             "type": "Microsoft.DocumentDB/databaseAccounts",
@@ -191,30 +198,30 @@
           
           },
             "kind": "app",
-            "properties": {
-                "enabled": true,
-                "hostNameSslStates": [
-                    {
-                        "name": "userswebsite.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Standard"
-                    },
-                    {
-                        "name": "userswebsite.scm.azurewebsites.net",
-                        "sslState": "Disabled",
-                        "hostType": "Repository"
-                    }
-                ],
-                "serverFarmId": "[parameters('serverfarms_ServicePlana6f91037_87b6_externalid')]",
-                "reserved": false,
-                "scmSiteAlsoStopped": false,
-                "clientAffinityEnabled": true,
-                "clientCertEnabled": false,
-                "hostNamesDisabled": false,
-                "containerSize": 0,
-                "dailyMemoryTimeQuota": 0,
-                "httpsOnly": true
-            }
+          "properties": {
+            "enabled": true,
+            "hostNameSslStates": [
+              {
+                "name": "userswebsite.azurewebsites.net",
+                "sslState": "Disabled",
+                "hostType": "Standard"
+              },
+              {
+                "name": "userswebsite.scm.azurewebsites.net",
+                "sslState": "Disabled",
+                "hostType": "Repository"
+              }
+            ],
+            "serverFarmId": "[parameters(reference(variables('functionAppConsumptionPlanName')).outputs.functionAppConsumptionPlanName.value]",
+            "reserved": false,
+            "scmSiteAlsoStopped": false,
+            "clientAffinityEnabled": true,
+            "clientCertEnabled": false,
+            "hostNamesDisabled": false,
+            "containerSize": 0,
+            "dailyMemoryTimeQuota": 0,
+            "httpsOnly": true
+          }
         },
         
         {

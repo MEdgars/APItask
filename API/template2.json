@@ -56,10 +56,10 @@
     {
       "apiVersion": "2015-04-08",
       "type": "Microsoft.DocumentDb/databaseAccounts",
-      "name": "[parameters('databaseAccountName')]",
+      "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "properties": {
-        "name": "[parameters('databaseAccountName')]",
+        "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
         "databaseAccountOfferType": "[variables('databaseAccountTier')]",
         "locations": [
           {
@@ -83,24 +83,25 @@
     {
       "type": "Microsoft.Web/Sites",
       "apiVersion": "2015-08-01",
-      "name": "[parameters('webAppName')]",
+      "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Web/serverFarms/', parameters('appSvcPlanName'))]"
       ],
       "properties": {
-        "name": "[parameters('webAppName')]",
-        "serverFarmId": "[parameters('appSvcPlanName')]",
+        "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
+
+        "serverFarmId": "[concat(parameters('appSvcPlanName'), uniqueString(resourceGroup().id) ) ]",
         "siteConfig": {
           "phpVersion": "off",
           "appSettings": [
             {
               "Name": "DOCUMENTDB_ENDPOINT",
-              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', parameters('databaseAccountName'))).documentEndpoint]"
+              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) )).documentEndpoint]"
             },
             {
               "Name": "DOCUMENTDB_PRIMARY_KEY",
-              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('databaseAccountName')), '2015-04-08').primaryMasterKey]"
+              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) ), '2015-04-08').primaryMasterKey]"
             }
           ]
         }

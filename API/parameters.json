@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "databaseAccountName": {
-      "value": "[concat(uniquestring(subscription().subscriptionId), 'DataBs')]"
+      "value": "DataBs"
     },
     "appSvcPlanName": {
-      "value": "[concat(uniquestring(subscription().subscriptionId), 'svcPlan')]"
+      "value": "svcPlan"
     },
     "svcPlanSize": {
       "value": "F1"
@@ -15,7 +15,7 @@
       "value": "Free"
     },
     "webAppName": {
-      "value": "[concat(uniquestring(subscription().subscriptionId), 'UsersWeb')]"
+      "value": "UsersWeb"
     }
   }
 }

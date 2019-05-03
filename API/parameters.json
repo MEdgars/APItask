@@ -1,39 +1,21 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "sites_UsersWebsite_name": {
-            "value": null
-        },
-        "sites_FunctionsDatabase_name": {
-            "value": null
-        },
-        "serverfarms_NorthEuropePlan_name": {
-            "value": null
-        },
-        "components_UsersWebsite_name": {
-            "value": null
-        },
-        "databaseAccounts_users_name": {
-            "value": null
-        },
-        "storageAccounts_mansstorage_name": {
-            "value": null
-        },
-        "components_FunctionsDatabase_name": {
-            "value": null
-        },
-        "storageAccounts_functionsdataba9d99_name": {
-            "value": null
-        },
-        "alertrules_Failure_Anomalies___UsersWebsite_name": {
-            "value": null
-        },
-        "alertrules_Failure_Anomalies___FunctionsDatabase_name": {
-            "value": null
-        },
-        "serverfarms_ServicePlana6f91037_87b6_externalid": {
-            "value": null
-        }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "databaseAccountName": {
+      "value": "[concat(uniquestring(subscription().subscriptionId), 'DataBs')]"
+    },
+    "appSvcPlanName": {
+      "value": "[concat(uniquestring(subscription().subscriptionId), 'svcPlan')]"
+    },
+    "svcPlanSize": {
+      "value": "F1"
+    },
+    "svcPlanSku": {
+      "value": "Free"
+    },
+    "webAppName": {
+      "value": "[concat(uniquestring(subscription().subscriptionId), 'UsersWeb')]"
     }
+  }
 }

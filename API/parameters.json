@@ -5,6 +5,12 @@
     "appName": {
       "value": "usersfunc"
     },
+    "repoUrl": {
+      "value": "https://github.com/AzureBytes/functionshttpecho.git"
+    },
+    "branch": {
+      "value": "master"
+    },
     "databaseAccountName": {
       "value": "databs"
     },

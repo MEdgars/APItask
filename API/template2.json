@@ -182,7 +182,7 @@
       "type": "datasets",
       "name": "[variables('blobInputDatasetName')]",
       "dependsOn": [
-        "[variables('dataFactoryName')]",
+        "[variables('dataFactoryName')]"
       ],
       "apiVersion": "2015-10-01",
       "properties": {

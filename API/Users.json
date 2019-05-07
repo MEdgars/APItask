@@ -1,0 +1,19 @@
+{
+  "id": "3333",
+  "firstName": "DonkeyMonkey",
+  "lastName": "Business",
+  "dischargeDate": "2019-01-01",
+  "position": "Management",
+  "hireDate": "2019-01-01",
+  "managerId": "12"
+},
+
+{
+  "id": "4444",
+  "firstName": "Snopp",
+  "lastName": "Dogg",
+  "dischargeDate": "2019-01-01",
+  "position": "Management",
+  "hireDate": "2019-01-01",
+  "managerId": "3333"
+}

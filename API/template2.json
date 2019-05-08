@@ -213,11 +213,11 @@
           "appSettings": [
             {
               "Name": "DOCUMENTDB_ENDPOINT",
-              "Value": "[reference(variables('cosmosDBInstanceName')).outputs.cosmosDBDocumentEndpoint.value]"
+              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) )).documentEndpoint]"
             },
             {
               "Name": "DOCUMENTDB_PRIMARY_KEY",
-              "Value": "[reference(variables('cosmosDBInstanceName')).outputs.cosmosDBPrimaryMasterKey.value]"
+              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) ), '2015-04-08').primaryMasterKey]"
 
             }
           ]

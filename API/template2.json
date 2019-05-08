@@ -124,7 +124,7 @@
       "name": "[variables('cosmosDBInstanceName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
+        "name": "[variables('cosmosDBInstanceName')]",
         "databaseAccountOfferType": "[variables('databaseAccountTier')]",
         "locations": [
           {
@@ -133,6 +133,9 @@
           }
         ]
       }
+
+
+
     },
 
 
@@ -262,14 +265,21 @@
     }
   ],
   "outputs": {
-    "cosmosDBAccountName2": {
-
+    "cosmosDBAccountName": {
       "type": "string",
+      "value": "[variables('cosmosDBInstanceName')]"
+    },
 
-      "value": "This is acc name"
-
+    "cosmosDBDocumentEndpoint": {
+      "type": "string",
+      "value": "[reference(variables('cosmosDBInstanceName')).documentEndpoint]"
+    },
+    "cosmosDBPrimaryMasterKey": {
+      "type": "string",
+      "value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
     }
   }
+
 
 }
  

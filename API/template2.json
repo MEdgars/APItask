@@ -114,7 +114,7 @@
     "functionAppName": "[parameters('appName')]",
     "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
-    "cosmosDBInstanceName": "[concat( 'Microsoft.DocumentDb/databaseAccounts', parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
+    "cosmosDBInstanceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
 
   },
   "resources": [

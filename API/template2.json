@@ -132,34 +132,9 @@
             "failoverPriority": 0
           }
         ]
-      },
-      "resources": [],
-      "outputs": {
-        "cosmosDBAccountName": {
-
-          "type": "string",
-
-          "value": "[variables('cosmosDBInstanceName')]"
-
-        },
-
-
-        "cosmosDBDocumentEndpoint": {
-
-          "type": "string",
-
-          "value": "[reference(variables('cosmosDBInstanceName')).documentEndpoint]"
-
-        },
-
-        "cosmosDBPrimaryMasterKey": {
-
-          "type": "string",
-
-          "value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
-
-        }
       }
+     
+      
     },
     {
       "type": "Microsoft.Web/serverfarms",

@@ -202,7 +202,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Web/serverFarms/', parameters('appSvcPlanName'),uniqueString(resourceGroup().id))]",
-        "[concat( 'Microsoft.DocumentDb/databaseAccounts', parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
+        "[concat( variables('cosmosDBInstanceName')) ]"
       ],
       "properties": {
         "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",

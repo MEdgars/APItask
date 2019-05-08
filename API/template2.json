@@ -133,7 +133,7 @@
           }
         ]
       },
-      "resources": [],
+      
       "outputs": {
         "cosmosDBAccountName2": {
 

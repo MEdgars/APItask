@@ -121,10 +121,10 @@
     {
       "apiVersion": "2015-04-08",
       "type": "Microsoft.DocumentDb/databaseAccounts",
-      "name": "[variables('cosmosDBInstanceName')]",
+      "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "properties": {
-        "name": "[variables('cosmosDBInstanceName')]",
+        "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
         "databaseAccountOfferType": "[variables('databaseAccountTier')]",
         "locations": [
           {
@@ -132,28 +132,10 @@
             "failoverPriority": 0
           }
         ]
-      },
-
-      "outputs": {
-        "cosmosDBAccountName": {
-          "type": "string",
-          "value": "[variables('cosmosDBInstanceName')]"
-        },
-
-        "cosmosDBDocumentEndpoint": {
-          "type": "string",
-          "value": "[reference(variables('cosmosDBInstanceName')).documentEndpoint]"
-        },
-        "cosmosDBPrimaryMasterKey": {
-          "type": "string",
-          "value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
-        }
       }
 
 
     },
-
-
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-08-01",
@@ -206,11 +188,11 @@
           "appSettings": [
             {
               "Name": "DOCUMENTDB_ENDPOINT",
-              "Value": "[reference(variables('cosmosDBInstanceName')).outputs.cosmosDBDocumentEndpoint.value]"
+              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) )).documentEndpoint]"
             },
             {
               "Name": "DOCUMENTDB_PRIMARY_KEY",
-              "Value": "[reference(variables('cosmosDBInstanceName')).outputs.cosmosDBPrimaryMasterKey.value]"
+              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) ), '2015-04-08').primaryMasterKey]"
 
             }
           ]
@@ -243,12 +225,12 @@
               "value": "~2"
             },
             {
-              "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "dotnet"
-            },
-            {
               "name": "AzureWebJobsStorage",
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "dotnet"
             },
             {
               "name": "AzureWebJobsDashboard",
@@ -279,8 +261,4 @@
       ]
     }
   ]
-
-
 }
- 
-

@@ -137,7 +137,7 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-08-01",
-      "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
+      "name": "[concat(variables('hostingPlanName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "sku": {
         "name": "Y1",
@@ -147,7 +147,7 @@
         "capacity": 0
       },
       "properties": {
-        "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
+        "name": "[concat(variables('hostingPlanName'),uniqueString(resourceGroup().id) )]",
         "workerTierName": null,
         "adminSiteName": null,
         "hostingEnvironmentProfile": null,
@@ -172,13 +172,13 @@
       "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Web/serverFarms/', parameters('appSvcPlanName'),uniqueString(resourceGroup().id))]",
+        "[concat('Microsoft.Web/serverFarms/', variables('hostingPlanName'),uniqueString(resourceGroup().id))]",
         "[concat( variables('cosmosDBInstanceName')) ]"
       ],
       "properties": {
         "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
 
-        "serverFarmId": "[concat(parameters('appSvcPlanName'), uniqueString(resourceGroup().id) ) ]",
+        "serverFarmId": "[concat(variables('hostingPlanName'), uniqueString(resourceGroup().id) ) ]",
         "siteConfig": {
           "phpVersion": "off",
           "appSettings": [
@@ -204,7 +204,7 @@
       "kind": "functionapp",
       "properties": {
         "name": "[variables('functionAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appSvcPlanName'),uniqueString(resourceGroup().id))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "hostingEnvironment": "",
         "clientAffinityEnabled": false,
         "siteConfig": {

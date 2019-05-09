@@ -233,7 +233,7 @@
             },
             {
               "name": "CosmosDBConnection",
-              "value": "[concat('AccountEndpoint=', reference(variables('cosmosDBInstanceName')).documentEndpoint, ';AccountKey=', listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey)]"
+              "value": "[concat('AccountEndpoint=', reference(variables('cosmosDBInstanceName')).documentEndpoint, ';AccountKey=', listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey,';')]"
             }
           ]
 

@@ -141,7 +141,7 @@
       "location": "[parameters('location')]",
       "sku": {
         "name": "Y1",
-        "tier": "Dynamic",
+        "tier": "Free",
         "size": "Y1",
         "family": "Y",
         "capacity": 0

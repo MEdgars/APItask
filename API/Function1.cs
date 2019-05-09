@@ -76,8 +76,8 @@ namespace API
         public static IActionResult GetTodos(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "users")]HttpRequest req,
         [CosmosDB(
-                databaseName: "ToDoList",
-                collectionName: "Items",
+                databaseName: "databsgyemselpupinu",
+                collectionName: "userslist",
                 ConnectionStringSetting = "CosmosDBConnection",
                 SqlQuery = "SELECT * FROM c")]
                 IEnumerable<Todo> todos, TraceWriter log)
@@ -89,8 +89,8 @@ namespace API
         public static IActionResult GetTodoById(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "users/{id}")]HttpRequest req,
         [CosmosDB
-            (databaseName: "ToDoList", 
-            collectionName: "Items", 
+            (databaseName: "databsgyemselpupinu", 
+            collectionName: "userslist", 
             ConnectionStringSetting = "CosmosDBConnection",
             Id = "{id}")] Todo todo,
         TraceWriter log, string id)
@@ -109,8 +109,8 @@ namespace API
         public static async Task<IActionResult> AdduserAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "users")]HttpRequest req,
         [CosmosDB
-                (databaseName: "ToDoList",
-                collectionName: "Items",
+                (databaseName: "databsgyemselpupinu",
+                collectionName: "userslist",
                 ConnectionStringSetting = "CosmosDBConnection")]
                 IAsyncCollector<User> todos, TraceWriter log)
         {

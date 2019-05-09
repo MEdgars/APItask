@@ -228,8 +228,12 @@
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
             },
             {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "dotnet"
+            },
+            {
               "name": "CosmosDBConnection",
-              "value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
+              "value": "[concat('AccountEndpoint=', reference(variables('cosmosDBInstanceName')).documentEndpoint, ';AccountKey=', listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey)]"
             }
           ]
 

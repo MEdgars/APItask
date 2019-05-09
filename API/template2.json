@@ -204,7 +204,7 @@
       "kind": "functionapp",
       "properties": {
         "name": "[variables('functionAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'), uniqueString(resourceGroup().id))]",
         "hostingEnvironment": "",
         "clientAffinityEnabled": false,
         "siteConfig": {
@@ -236,7 +236,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'), uniqueString(resourceGroup().id))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "resources": [

@@ -204,7 +204,7 @@
       "kind": "functionapp",
       "properties": {
         "name": "[variables('functionAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appSvcPlanName'),uniqueString(resourceGroup().id))]",
         "hostingEnvironment": "",
         "clientAffinityEnabled": false,
         "siteConfig": {

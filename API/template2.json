@@ -112,7 +112,7 @@
   "variables": {
     "databaseAccountTier": "Standard",
     "functionAppName": "[parameters('appName')]",
-    "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
+    "hostingPlanName": "[concat(parameters('appName'), uniqueString(resourceGroup().id), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
     "cosmosDBInstanceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
 
@@ -172,13 +172,13 @@
       "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Web/serverFarms/', variables('hostingPlanName'),uniqueString(resourceGroup().id))]",
+        "[concat('Microsoft.Web/serverFarms/', variables('hostingPlanName'))]",
         "[concat( variables('cosmosDBInstanceName')) ]"
       ],
       "properties": {
         "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
 
-        "serverFarmId": "[concat(variables('hostingPlanName'), uniqueString(resourceGroup().id) ) ]",
+        "serverFarmId": "[concat(variables('hostingPlanName') ) ]",
         "siteConfig": {
           "phpVersion": "off",
           "appSettings": [
@@ -204,7 +204,7 @@
       "kind": "functionapp",
       "properties": {
         "name": "[variables('functionAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'), uniqueString(resourceGroup().id))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "hostingEnvironment": "",
         "clientAffinityEnabled": false,
         "siteConfig": {
@@ -236,7 +236,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'), uniqueString(resourceGroup().id))]",
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "resources": [

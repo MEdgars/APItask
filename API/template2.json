@@ -120,8 +120,8 @@
   "resources": [
     {
       "apiVersion": "2015-04-08",
-      "type": "Microsoft.DocumentDb/databaseAccounts",
-      "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "name": "[variables('cosmosDBInstanceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
@@ -133,8 +133,6 @@
           }
         ]
       }
-
-
     },
     {
       "type": "Microsoft.Web/serverfarms",
@@ -142,32 +140,30 @@
       "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "[parameters('svcPlanSize')]",
-        "tier": "[parameters('svcPlanSku')]",
-        "capacity": 1
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y",
+        "capacity": 0
+      },
+      "properties": {
+        "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
+        "workerTierName": null,
+        "adminSiteName": null,
+        "hostingEnvironmentProfile": null,
+        "perSiteScaling": false,
+        "reserved": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
       }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2016-09-01",
       "location": "[parameters('location')]",
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
-      }
-    },
-
-    {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2015-04-01",
-      "name": "[variables('hostingPlanName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "name": "[variables('hostingPlanName')]",
-        "sku": "[parameters('sku')]",
-        "workerSize": "[parameters('workerSize')]",
-        "hostingEnvironment": "",
-        "numberOfWorkers": 1
       }
     },
     {
@@ -188,11 +184,11 @@
           "appSettings": [
             {
               "Name": "DOCUMENTDB_ENDPOINT",
-              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) )).documentEndpoint]"
+              "Value": "[reference(variables('cosmosDBInstanceName')).documentEndpoint]"
             },
             {
               "Name": "DOCUMENTDB_PRIMARY_KEY",
-              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) ), '2015-04-08').primaryMasterKey]"
+              "Value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
 
             }
           ]
@@ -200,7 +196,6 @@
         }
       }
     },
-
     {
       "apiVersion": "2015-08-01",
       "type": "Microsoft.Web/sites",
@@ -229,12 +224,12 @@
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
             },
             {
-              "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "dotnet"
-            },
-            {
               "name": "AzureWebJobsDashboard",
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+            },
+            {
+              "name": "CosmosDBConnection",
+              "value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
             }
           ]
 
@@ -262,3 +257,5 @@
     }
   ]
 }
+  
+  

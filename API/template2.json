@@ -140,10 +140,10 @@
       "name": "[concat(variables('hostingPlanName') )]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "S1",
-        "tier": "Standard",
-        "size": "S1",
-        "family": "S",
+        "name": "F1",
+        "tier": "Free",
+        "size": "F1",
+        "family": "F",
         "capacity": 0
       },
       "properties": {

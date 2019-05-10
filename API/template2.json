@@ -112,7 +112,7 @@
   "variables": {
     "databaseAccountTier": "Standard",
     "functionAppName": "[parameters('appName')]",
-    "hostingPlanName": "[concat(parameters('appName'), '-plan')]",
+    "hostingPlanName": "[concat(parameters('appName'), uniqueString(resourceGroup().id), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
     "cosmosDBInstanceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
 
@@ -120,8 +120,8 @@
   "resources": [
     {
       "apiVersion": "2015-04-08",
-      "type": "Microsoft.DocumentDb/databaseAccounts",
-      "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "name": "[variables('cosmosDBInstanceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
@@ -133,18 +133,28 @@
           }
         ]
       }
-
-
     },
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-08-01",
-      "name": "[concat(parameters('appSvcPlanName'),uniqueString(resourceGroup().id) )]",
+      "name": "[concat(variables('hostingPlanName') )]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "[parameters('svcPlanSize')]",
-        "tier": "[parameters('svcPlanSku')]",
-        "capacity": 1
+        "name": "S1",
+        "tier": "Standard",
+        "size": "S1",
+        "family": "S",
+        "capacity": 0
+      },
+      "properties": {
+        "name": "[concat(variables('hostingPlanName') )]",
+        "workerTierName": null,
+        "adminSiteName": null,
+        "hostingEnvironmentProfile": null,
+        "perSiteScaling": false,
+        "reserved": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
       }
     },
     {
@@ -158,41 +168,28 @@
     },
 
     {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2015-04-01",
-      "name": "[variables('hostingPlanName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "name": "[variables('hostingPlanName')]",
-        "sku": "[parameters('sku')]",
-        "workerSize": "[parameters('workerSize')]",
-        "hostingEnvironment": "",
-        "numberOfWorkers": 1
-      }
-    },
-    {
       "type": "Microsoft.Web/Sites",
       "apiVersion": "2015-08-01",
       "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Web/serverFarms/', parameters('appSvcPlanName'),uniqueString(resourceGroup().id))]",
+        "[concat('Microsoft.Web/serverFarms/', variables('hostingPlanName'))]",
         "[concat( variables('cosmosDBInstanceName')) ]"
       ],
       "properties": {
         "name": "[concat( parameters('webAppName'),uniqueString(resourceGroup().id) )]",
 
-        "serverFarmId": "[concat(parameters('appSvcPlanName'), uniqueString(resourceGroup().id) ) ]",
+        "serverFarmId": "[concat(variables('hostingPlanName') ) ]",
         "siteConfig": {
           "phpVersion": "off",
           "appSettings": [
             {
               "Name": "DOCUMENTDB_ENDPOINT",
-              "Value": "[reference(concat('Microsoft.DocumentDb/databaseAccounts/', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) )).documentEndpoint]"
+              "Value": "[reference(variables('cosmosDBInstanceName')).documentEndpoint]"
             },
             {
               "Name": "DOCUMENTDB_PRIMARY_KEY",
-              "Value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', concat(parameters('databaseAccountName'), uniqueString(resourceGroup().id) ) ), '2015-04-08').primaryMasterKey]"
+              "Value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
 
             }
           ]
@@ -229,12 +226,16 @@
               "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
             },
             {
+              "name": "AzureWebJobsDashboard",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+            },
+            {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "dotnet"
             },
             {
-              "name": "AzureWebJobsDashboard",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+              "name": "CosmosDBConnection",
+              "value": "[concat('AccountEndpoint=', reference(variables('cosmosDBInstanceName')).documentEndpoint, ';AccountKey=', listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey,';')]"
             }
           ]
 
@@ -243,22 +244,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-      ],
-      "resources": [
-        {
-          "apiVersion": "2015-08-01",
-          "name": "web",
-          "type": "sourcecontrols",
-          "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
-          ],
-          "properties": {
-            "RepoUrl": "[parameters('repoURL')]",
-            "branch": "[parameters('branch')]",
-            "IsManualIntegration": true
-          }
-        }
       ]
+      
     }
   ]
 }

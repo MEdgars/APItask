@@ -34,7 +34,7 @@
                 anHttpRequest.send(null);
             }
         }
-        var theurl = 'https://functionsdatabase.azurewebsites.net/api/users/' + document.getElementById("id").value + '';
+        var theurl = 'https://usersfunc.azurewebsites.net/api/users/' + document.getElementById("id").value + '';
         window.open(theurl);
         var client = new HttpClient();
         client.get(theurl, function (response) {

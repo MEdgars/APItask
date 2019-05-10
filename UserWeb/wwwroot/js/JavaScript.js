@@ -13,7 +13,7 @@ var HttpClient = function () {
         anHttpRequest.send(null);
     }
 }
-var theurl = 'https://functionsdatabase.azurewebsites.net/api/users';
+var theurl = 'https://usersfunc.azurewebsites.net/api/users';
 var client = new HttpClient();
 client.get(theurl, function (response) {
     var response1 = JSON.parse(response);
@@ -25,7 +25,7 @@ client.get(theurl, function (response) {
             table += '<tr>';
             table += '<td>' + response1[c].firstName + '</td>';
             table += '<td>' + response1[c].lastName + '</td>';
-            table += '<td><a href="https://functionsdatabase.azurewebsites.net/api/users/' + response1[c].id + '">' + response1[c].id + '</a></td>';
+            table += '<td><a href="https://usersfunc.azurewebsites.net/api/users/' + response1[c].id + '">' + response1[c].id + '</a></td>';
             table += '<td>' + response1[c].managerId + '</td>';
             table += '<td>' + response1[c].position + '</td>';
             table += '<td>' + response1[c].hireDate + '</td>';

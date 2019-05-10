@@ -1,0 +1,30 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appName": {
+      "value": "usersfunc"
+    },
+    "repoUrl": {
+      "value": "https://github.com/AzureBytes/functionshttpecho.git"
+    },
+    "branch": {
+      "value": "master"
+    },
+    "databaseAccountName": {
+      "value": "databs"
+    },
+    "appSvcPlanName": {
+      "value": "svcplan"
+    },
+    "svcPlanSize": {
+      "value": "F1"
+    },
+    "svcPlanSku": {
+      "value": "Free"
+    },
+    "webAppName": {
+      "value": "usersweb"
+    }
+  }
+}

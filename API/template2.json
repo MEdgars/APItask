@@ -123,12 +123,23 @@
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "name": "[variables('cosmosDBInstanceName')]",
       "location": "[parameters('location')]",
+      "kind": "GlobalDocumentDB",
       "properties": {
-        "name": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]",
+        "name": "[variables('cosmosDBInstanceName')]",
         "databaseAccountOfferType": "[variables('databaseAccountTier')]",
+        "enableAutomaticFailover": false,
+        "enableMultipleWriteLocations": false,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
         "locations": [
           {
             "locationName": "[parameters('location')]",
+            "provisioningState": "Succeeded",
             "failoverPriority": 0
           }
         ]
@@ -191,6 +202,10 @@
               "Name": "DOCUMENTDB_PRIMARY_KEY",
               "Value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
 
+            },
+            {
+              "Name": "WEBSITE_RUN_FROM_PACKAGE",
+              "Value": "0"
             }
           ]
 

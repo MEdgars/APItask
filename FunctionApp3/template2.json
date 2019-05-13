@@ -95,6 +95,17 @@
         "description": "Storage Account type"
       }
     },
+    {
+      "accountSasProperties": {
+        "type": "object",
+        "defaultValue": {
+          "signedServices": "b",
+          "signedPermission": "rw",
+          "signedExpiry": "2019-03-01T00:00:01Z",
+          "signedResourceTypes": "o"
+        }
+      }
+    },
     "webAppName": {
       "type": "string",
       "metadata": {
@@ -214,7 +225,12 @@
               "Name": "DOCUMENTDB_PRIMARY_KEY",
               "Value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
 
+            },
+            {
+              "Name": "WEBSITE_RUN_FROM_PACKAGE",
+              "Value": "concat('https://gyemselpupinufunctions.blob.core.windows.net/webcontainer?',[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value])"
             }
+
 
           ]
 

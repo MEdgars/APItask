@@ -115,6 +115,7 @@
     "hostingPlanName": "[concat(parameters('appName'), uniqueString(resourceGroup().id), '-plan')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'functions')]",
     "cosmosDBInstanceName": "[concat( parameters('databaseAccountName'),uniqueString(resourceGroup().id) )]"
+    "containerName":  "webcontainer"
 
   },
   "resources": [
@@ -173,9 +174,24 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
+      "kind": "StorageV2",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
-      }
+      },
+      "resources": [
+        {
+          "name": "[concat('default/', variables('containerName'))]",
+          "type": "blobServices/containers",
+          "apiVersion": "2018-07-01",
+          "dependsOn": [
+            "[variables('storageAccountName')]"
+          ]
+        }
+      ]
     },
 
     {

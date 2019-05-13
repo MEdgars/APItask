@@ -225,11 +225,8 @@
               "Name": "DOCUMENTDB_PRIMARY_KEY",
               "Value": "[listkeys(variables('cosmosDBInstanceName'), '2015-04-08').primaryMasterKey]"
 
-            },
-            {
-              "Name": "WEBSITE_RUN_FROM_PACKAGE",
-              "Value": "[concat('https://gyemselpupinufunctions.blob.core.windows.net/webcontainer?',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
             }
+           
 
 
           ]

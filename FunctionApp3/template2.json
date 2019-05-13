@@ -27,6 +27,15 @@
         "description": "The instance size of the hosting plan (small, medium, or large)."
       }
     },
+    "tenantID": {
+      "type": "string",
+      "defaultValue": "b79b2317-34dd-43e5-91a2-cd66d3ae1f0b"
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "keyvault"
+    },
+
     "branch": {
       "type": "string",
       "defaultValue": "master",
@@ -82,6 +91,15 @@
         "description": "The pricing tier of the App Service plan."
       }
     },
+    "accountSasProperties": {
+      "type": "object",
+      "defaultValue": {
+        "signedServices": "b",
+        "signedPermission": "rw",
+        "signedExpiry": "2019-03-01T00:00:01Z",
+        "signedResourceTypes": "o"
+      }
+    },
     "storageAccountType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
@@ -95,7 +113,7 @@
         "description": "Storage Account type"
       }
     },
-    
+
     "webAppName": {
       "type": "string",
       "metadata": {
@@ -148,6 +166,52 @@
       }
     },
     {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2018-02-14",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('keyVaultName')]"
+      },
+      "properties": {
+        "enabledForDeployment": true,
+        "enabledForTemplateDeployment": true,
+        "enabledForDiskEncryption": true,
+        "tenantId": "[parameters('tenantID')]",
+        "accessPolicies": [
+          {
+            "tenantId": "[parameters('tenantID')]",
+            "objectId": "[parameters('keyVaultAccessObjectID')]",
+            "permissions": {
+              "keys": [
+                "get"
+              ],
+              "secrets": [
+                "list",
+                "get",
+                "set"
+              ]
+            }
+          }
+        ],
+        "sku": {
+          "name": "standard",
+          "family": "A"
+        }
+      }
+    },
+    {
+      "apiVersion": "2018-02-14",
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]"
+      ],
+      "name": "[concat(parameters('keyVaultName'), '/', 'StorageSaSToken')]",
+      "properties": {
+        "value": "[listAccountSas(parameters('StorageAccountName'), '2018-07-01', parameters('accountSasProperties')).accountSasToken]"
+      }
+    },
+    {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-08-01",
       "name": "[concat(variables('hostingPlanName') )]",
@@ -175,7 +239,7 @@
       "name": "[variables('storageAccountName')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
-      
+
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
       },
@@ -218,9 +282,9 @@
             },
             {
               "Name": "WEBSITE_RUN_FROM_PACKAGE",
-              "Value": "[concat('https://gyemselpupinufunctions.blob.core.windows.net/webcontainer?',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+              "Value": "1"
             }
-           
+
 
 
           ]
@@ -276,7 +340,7 @@
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ]
-      
+
     }
   ]
 }
